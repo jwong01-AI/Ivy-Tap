@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ivy's Tap</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   TOKENS — warm, cheerful, readable
+═══════════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  /* Palette */
+  --peach:    #FFF3ED;
+  --peach-mid:#FFE0CC;
+  --tangerine:#F97316;
+  --tang-dk:  #C2530A;
+  --tang-lt:  #FDBA8C;
+  --sky:      #EFF6FF;
+  --sky-mid:  #BFDBFE;
+  --blue:     #3B82F6;
+  --blue-dk:  #1D4ED8;
+  --sage:     #F0FDF4;
+  --sage-mid: #BBF7D0;
+  --green:    #16A34A;
+  --green-dk: #14532D;
+  --rose:     #FFF1F2;
+  --rose-mid: #FECDD3;
+  --red:      #E11D48;
+  --red-dk:   #9F1239;
+  --sand:     #FAFAF5;
+  --sand-mid: #F0EFE6;
+  --ink:      #1C1917;
+  --ink-soft: #44403C;
+  --ink-muted:#78716C;
+  --ink-faint:#A8A29E;
+  --white:    #FFFFFF;
+  --border:   #E7E5E4;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05);
+  --shadow:   0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06);
+  --radius-sm:10px;
+  --radius:   14px;
+  --radius-lg:20px;
+  --radius-xl:26px;
+}
+
+/* ═══════════════════════════════════════
+   BASE
+═══════════════════════════════════════ */
+html{background:#F5F4EF}
+body{
+  font-family:'Nunito',system-ui,sans-serif;
+  background:var(--sand);
+  color:var(--ink);
+  min-height:100vh;
+  max-width:680px;
+  margin:0 auto;
+  padding-bottom:80px;
+  font-size:16px;
+  line-height:1.5;
+}
+
+/* ═══════════════════════════════════════
+   SETUP SCREEN
+═══════════════════════════════════════ */
+.setup{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px 20px;
+  background:linear-gradient(145deg,#FFF7ED 0%,#FEF3C7 50%,#ECFDF5 100%);
+}
+.setup-card{
+  background:var(--white);
+  border-radius:var(--radius-xl);
+  padding:36px 28px;
+  width:100%;max-width:460px;
+  box-shadow:var(--shadow-lg);
+}
+.setup-logo{
+  font-family:'Lora',serif;
+  font-size:36px;font-weight:600;
+  color:var(--tangerine);
+  text-align:center;
+  margin-bottom:4px;
+}
+.setup-logo em{color:var(--tang-dk);font-style:italic}
+.setup-sub{
+  text-align:center;font-size:13px;
+  color:var(--ink-muted);letter-spacing:.5px;
+  margin-bottom:28px;
+}
+.sf{margin-bottom:18px}
+.sf label{
+  display:block;font-size:13px;font-weight:700;
+  color:var(--ink-soft);margin-bottom:6px;
+}
+.sf input{
+  width:100%;padding:12px 14px;
+  background:var(--sand);border:2px solid var(--border);
+  border-radius:var(--radius-sm);
+  font-family:'Nunito',sans-serif;font-size:15px;
+  color:var(--ink);outline:none;transition:.2s;
+}
+.sf input::placeholder{color:var(--ink-faint)}
+.sf input:focus{border-color:var(--tangerine);background:var(--white);box-shadow:0 0 0 3px rgba(249,115,22,0.12)}
+.sf .hint{font-size:12px;color:var(--ink-muted);margin-top:6px;line-height:1.7}
+.sf .hint a{color:var(--tangerine);font-weight:600}
+.sf .hint code{
+  background:var(--peach);color:var(--tang-dk);
+  padding:1px 5px;border-radius:4px;font-size:11px;
+}
+.sf .hint b{color:var(--tangerine)}
+
+.steps-box{
+  background:var(--peach);border:1px solid var(--peach-mid);
+  border-radius:var(--radius-sm);padding:16px;margin:20px 0;
+}
+.steps-title{font-size:12px;font-weight:700;color:var(--tang-dk);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.step{font-size:13px;color:var(--ink-soft);line-height:1.8;display:flex;gap:10px}
+.step b{color:var(--tangerine);font-weight:800;min-width:16px}
+.step a{color:var(--tangerine);font-weight:600}
+.step code{background:rgba(249,115,22,0.1);color:var(--tang-dk);padding:1px 5px;border-radius:4px;font-size:11px}
+
+.setup-btn{
+  width:100%;margin-top:22px;
+  padding:15px;
+  background:var(--tangerine);color:var(--white);
+  border:none;border-radius:var(--radius-sm);
+  font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;
+  cursor:pointer;transition:.2s;letter-spacing:.3px;
+}
+.setup-btn:hover{background:var(--tang-dk);transform:translateY(-1px);box-shadow:var(--shadow)}
+.setup-btn:active{transform:scale(.99)}
+.setup-err{
+  background:var(--rose);border:1px solid var(--rose-mid);
+  border-radius:var(--radius-sm);padding:12px 14px;
+  font-size:13px;color:var(--red-dk);
+  margin-top:12px;display:none;line-height:1.6;font-weight:600;
+}
+.setup-note{font-size:12px;color:var(--ink-faint);text-align:center;line-height:1.8;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
+
+/* ═══════════════════════════════════════
+   AUTH SCREEN
+═══════════════════════════════════════ */
+.auth{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  background:linear-gradient(145deg,#FFF7ED 0%,#FEF3C7 60%,#ECFDF5 100%);
+}
+.auth-card{
+  background:var(--white);
+  border-radius:var(--radius-xl);
+  padding:44px 32px;width:100%;max-width:360px;
+  text-align:center;box-shadow:var(--shadow-lg);
+}
+.auth-icon{font-size:48px;margin-bottom:12px;line-height:1}
+.auth-logo{
+  font-family:'Lora',serif;
+  font-size:34px;font-weight:600;color:var(--tangerine);
+  margin-bottom:6px;
+}
+.auth-logo em{color:var(--tang-dk);font-style:italic}
+.auth-tag{font-size:13px;color:var(--ink-muted);margin-bottom:32px}
+.gbtn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:14px 20px;
+  background:var(--white);border:2px solid var(--border);
+  border-radius:var(--radius-sm);
+  font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;
+  color:var(--ink-soft);cursor:pointer;transition:.2s;
+  box-shadow:var(--shadow-sm);
+}
+.gbtn:hover{border-color:var(--tangerine);box-shadow:var(--shadow);transform:translateY(-1px)}
+.gbtn:active{transform:scale(.99)}
+.auth-err{
+  background:var(--rose);border:1px solid var(--rose-mid);
+  border-radius:var(--radius-sm);padding:12px 14px;
+  font-size:13px;color:var(--red-dk);font-weight:600;
+  margin-top:14px;display:none;line-height:1.6;
+}
+.auth-link{font-size:13px;color:var(--ink-faint);margin-top:20px;cursor:pointer}
+.auth-link:hover{color:var(--tangerine);text-decoration:underline}
+
+/* ═══════════════════════════════════════
+   MAIN HEADER
+═══════════════════════════════════════ */
+.hdr{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  padding:16px 20px 0;
+  position:sticky;top:0;z-index:100;
+  box-shadow:var(--shadow-sm);
+}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0;padding-bottom:14px}
+.logo{
+  font-family:'Lora',serif;
+  font-size:22px;font-weight:600;color:var(--tangerine);
+  line-height:1;
+}
+.logo em{color:var(--tang-dk);font-style:italic}
+.hdr-actions{display:flex;align-items:center;gap:8px}
+.icon-btn{
+  width:36px;height:36px;border-radius:50%;
+  border:2px solid var(--border);background:var(--sand);
+  color:var(--ink-muted);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:16px;transition:.2s;user-select:none;
+  font-weight:700;
+}
+.icon-btn:hover{border-color:var(--tangerine);color:var(--tangerine);background:var(--peach)}
+
+/* ═══════════════════════════════════════
+   BALANCE HERO CARD
+═══════════════════════════════════════ */
+.hero-wrap{padding:20px 16px 0}
+.hero-card{
+  border-radius:var(--radius-lg);
+  padding:28px 24px 22px;
+  text-align:center;
+  position:relative;overflow:hidden;
+  transition:background .5s;
+}
+.hero-card.pos{background:linear-gradient(135deg,#ECFDF5 0%,#D1FAE5 100%);border:1.5px solid var(--sage-mid)}
+.hero-card.neg{background:linear-gradient(135deg,#FFF1F2 0%,#FFE4E6 100%);border:1.5px solid var(--rose-mid)}
+.hero-card.zero{background:linear-gradient(135deg,#FFF7ED 0%,#FEF3C7 100%);border:1.5px solid var(--peach-mid)}
+.hero-card.loading-state{background:var(--sand-mid);border:1.5px solid var(--border)}
+
+.hero-eyebrow{
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--ink-muted);margin-bottom:8px;
+}
+.hero-amount{
+  font-family:'Lora',serif;
+  font-size:56px;font-weight:600;line-height:1;
+  transition:color .4s;margin-bottom:8px;
+}
+.hero-card.pos  .hero-amount{color:var(--green-dk)}
+.hero-card.neg  .hero-amount{color:var(--red-dk)}
+.hero-card.zero .hero-amount{color:var(--tang-dk)}
+.hero-card.loading-state .hero-amount{color:var(--ink-faint);font-size:32px}
+
+.hero-msg{
+  font-size:15px;font-weight:600;
+  margin-bottom:20px;
+}
+.hero-card.pos  .hero-msg{color:var(--green)}
+.hero-card.neg  .hero-msg{color:var(--red)}
+.hero-card.zero .hero-msg{color:var(--tangerine)}
+
+.hero-stats{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:1px;background:rgba(0,0,0,0.06);
+  border-radius:var(--radius-sm);overflow:hidden;
+}
+.hs-item{background:rgba(255,255,255,0.65);padding:10px 8px;text-align:center}
+.hs-val{font-size:15px;font-weight:800;color:var(--ink);line-height:1;margin-bottom:2px}
+.hs-lbl{font-size:10px;font-weight:600;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.8px}
+
+/* ═══════════════════════════════════════
+   SYNC STATUS
+═══════════════════════════════════════ */
+.sync-row{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:11px;font-weight:600;color:var(--ink-faint);
+  padding:8px 16px 0;
+}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0}
+.sync-dot.ok{background:var(--green)}
+.sync-dot.err{background:var(--red)}
+.sync-dot.spin-dot{animation:pulse 1.2s ease-in-out infinite;background:var(--tangerine)}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ═══════════════════════════════════════
+   TABS
+═══════════════════════════════════════ */
+.tabs{
+  display:flex;gap:4px;
+  padding:12px 16px 0;
+  border-bottom:2px solid var(--border);
+  background:var(--white);
+}
+.tab{
+  padding:10px 18px;
+  font-size:14px;font-weight:700;
+  color:var(--ink-muted);border-bottom:3px solid transparent;
+  margin-bottom:-2px;cursor:pointer;transition:.15s;
+  border-radius:var(--radius-sm) var(--radius-sm) 0 0;
+  white-space:nowrap;
+}
+.tab:hover{color:var(--tangerine);background:var(--peach)}
+.tab.active{color:var(--tangerine);border-bottom-color:var(--tangerine);background:var(--peach)}
+
+/* ═══════════════════════════════════════
+   CONTENT AREA
+═══════════════════════════════════════ */
+.content{padding:20px 16px 0}
+
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-title{font-family:'Lora',serif;font-size:19px;font-weight:600;color:var(--ink)}
+.section-sub{font-size:12px;font-weight:600;color:var(--ink-faint)}
+
+.refresh-btn{
+  display:flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:700;color:var(--ink-muted);
+  cursor:pointer;padding:6px 12px;border-radius:20px;
+  border:1.5px solid var(--border);background:var(--white);transition:.2s;
+}
+.refresh-btn:hover{border-color:var(--tangerine);color:var(--tangerine);background:var(--peach)}
+
+/* ═══════════════════════════════════════
+   ADD FORM
+═══════════════════════════════════════ */
+.form-card{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius-lg);padding:22px 20px;
+  box-shadow:var(--shadow);margin-bottom:20px;
+}
+
+/* Credit / Debit big toggle */
+.type-toggle{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.type-btn{
+  padding:14px 10px;
+  border-radius:var(--radius-sm);border:2px solid var(--border);
+  background:var(--sand);
+  font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;
+  color:var(--ink-muted);cursor:pointer;transition:.2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  line-height:1.2;
+}
+.type-btn .tb-icon{
+  width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:800;
+  flex-shrink:0;
+}
+.type-btn.sel-credit{
+  background:var(--sage);border-color:var(--green);color:var(--green-dk);
+}
+.type-btn.sel-credit .tb-icon{background:var(--green);color:var(--white)}
+.type-btn.sel-debit{
+  background:var(--rose);border-color:var(--red);color:var(--red-dk);
+}
+.type-btn.sel-debit .tb-icon{background:var(--red);color:var(--white)}
+
+.type-hint{
+  font-size:13px;font-weight:600;padding:10px 14px;
+  border-radius:var(--radius-sm);margin-bottom:16px;
+  border-left:4px solid;line-height:1.5;
+}
+.type-hint.h-credit{background:var(--sage);border-color:var(--green);color:var(--green-dk)}
+.type-hint.h-debit {background:var(--rose);border-color:var(--red);color:var(--red-dk)}
+
+/* Form fields */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.field{margin-bottom:0}
+.field label{
+  display:block;font-size:12px;font-weight:700;
+  color:var(--ink-soft);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;
+}
+.field input,.field textarea{
+  width:100%;padding:12px 14px;
+  border:2px solid var(--border);border-radius:var(--radius-sm);
+  font-family:'Nunito',sans-serif;font-size:15px;
+  color:var(--ink);background:var(--sand);outline:none;transition:.2s;
+  -webkit-appearance:none;appearance:none;
+}
+.field input:focus,.field textarea:focus{
+  border-color:var(--tangerine);background:var(--white);
+  box-shadow:0 0 0 3px rgba(249,115,22,0.12);
+}
+.field textarea{resize:none;height:70px;line-height:1.5}
+.field input#inAmt{
+  font-family:'Lora',serif;
+  font-size:28px;font-weight:600;color:var(--ink);
+  padding:10px 14px;
+}
+.field input#inAmt:focus{color:var(--tangerine)}
+.field input#inAmt::placeholder{font-size:22px;color:var(--ink-faint)}
+
+/* Preview bar */
+.preview-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--peach);border:1.5px solid var(--peach-mid);
+  border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:14px;
+}
+.preview-label{font-size:13px;font-weight:600;color:var(--tang-dk)}
+.preview-val{font-family:'Lora',serif;font-size:22px;font-weight:600}
+.preview-val.pos{color:var(--green-dk)}
+.preview-val.neg{color:var(--red-dk)}
+
+/* Add button */
+.add-btn{
+  width:100%;padding:15px;
+  background:var(--tangerine);color:var(--white);
+  border:none;border-radius:var(--radius-sm);
+  font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;
+  cursor:pointer;transition:.2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  letter-spacing:.3px;box-shadow:0 2px 8px rgba(249,115,22,0.3);
+}
+.add-btn:hover{background:var(--tang-dk);transform:translateY(-1px);box-shadow:0 4px 14px rgba(249,115,22,0.35)}
+.add-btn:active{transform:scale(.99)}
+.add-btn.loading{opacity:.65;pointer-events:none;transform:none}
+
+/* ═══════════════════════════════════════
+   HISTORY / LEDGER
+═══════════════════════════════════════ */
+.filter-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chip{
+  padding:7px 16px;border-radius:20px;
+  border:1.5px solid var(--border);background:var(--white);
+  font-size:13px;font-weight:700;color:var(--ink-muted);
+  cursor:pointer;transition:.2s;user-select:none;
+}
+.chip:hover{border-color:var(--tangerine);color:var(--tangerine)}
+.chip.active{background:var(--tangerine);color:var(--white);border-color:var(--tangerine)}
+
+.entry-card{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px 16px;margin-bottom:10px;
+  display:flex;align-items:center;gap(14px);
+  gap:12px;transition:.15s;
+}
+.entry-card:hover{box-shadow:var(--shadow);border-color:var(--tang-lt)}
+
+.entry-badge{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.entry-badge.credit{background:var(--sage);color:var(--green)}
+.entry-badge.debit {background:var(--rose);color:var(--red)}
+
+.entry-body{flex:1;min-width:0}
+.entry-comment{
+  font-size:14px;font-weight:600;color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  margin-bottom:2px;
+}
+.entry-date{font-size:12px;font-weight:600;color:var(--ink-faint)}
+
+.entry-right{text-align:right;flex-shrink:0}
+.entry-amount{
+  font-family:'Lora',serif;font-size:17px;font-weight:600;
+  line-height:1;margin-bottom:3px;
+}
+.entry-amount.credit{color:var(--green-dk)}
+.entry-amount.debit {color:var(--red-dk)}
+.entry-balance{font-size:11px;font-weight:700;color:var(--ink-faint)}
+.entry-balance.pos{color:var(--green)}
+.entry-balance.neg{color:var(--red)}
+
+/* ═══════════════════════════════════════
+   SUMMARY / STATS
+═══════════════════════════════════════ */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.stat-card{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:18px 16px;
+}
+.stat-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink-muted);margin-bottom:6px}
+.stat-val{font-family:'Lora',serif;font-size:26px;font-weight:600;color:var(--ink);line-height:1;margin-bottom:4px}
+.stat-val.pos{color:var(--green-dk)}
+.stat-val.neg{color:var(--red-dk)}
+.stat-sub{font-size:12px;font-weight:600;color:var(--ink-faint)}
+
+.big-stat{
+  background:linear-gradient(135deg,var(--peach) 0%,var(--peach-mid) 100%);
+  border:1.5px solid var(--peach-mid);
+  border-radius:var(--radius);padding:20px;
+  margin-bottom:12px;
+}
+.big-stat-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--tang-dk);margin-bottom:4px}
+.big-stat-val{font-family:'Lora',serif;font-size:36px;font-weight:600;color:var(--ink);line-height:1;margin-bottom:4px}
+.big-stat-val.pos{color:var(--green-dk)}
+.big-stat-val.neg{color:var(--red-dk)}
+.big-stat-sub{font-size:14px;font-weight:700;color:var(--tang-dk)}
+
+.chart-card{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:18px 16px;
+  margin-bottom:12px;
+}
+.chart-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink-muted);margin-bottom:14px}
+.chart-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border)}
+.chart-row:last-child{border-bottom:none}
+.chart-date{font-size:12px;font-weight:700;color:var(--ink-muted);min-width:68px;flex-shrink:0}
+.chart-bar-wrap{flex:1}
+.chart-track{background:var(--sand-mid);border-radius:4px;height:8px;overflow:hidden}
+.chart-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.chart-fill.credit{background:var(--green)}
+.chart-fill.debit{background:var(--red)}
+.chart-amt{font-family:'Lora',serif;font-size:14px;font-weight:600;min-width:56px;text-align:right}
+.chart-amt.credit{color:var(--green-dk)}
+.chart-amt.debit{color:var(--red-dk)}
+.chart-note{font-size:10px;font-weight:700;color:var(--ink-faint);min-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ═══════════════════════════════════════
+   EMPTY + LOADING STATES
+═══════════════════════════════════════ */
+.empty-state{text-align:center;padding:52px 24px;color:var(--ink-muted)}
+.empty-icon{font-size:48px;margin-bottom:14px;line-height:1}
+.empty-state p{font-size:15px;font-weight:600;color:var(--ink-muted)}
+.loading-state{text-align:center;padding:52px 24px;color:var(--ink-muted);font-size:15px;font-weight:600}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{display:inline-block;animation:spin 1s linear infinite}
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+.toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--ink);color:var(--white);
+  padding:12px 22px;border-radius:30px;
+  font-size:14px;font-weight:700;
+  opacity:0;transition:.3s;pointer-events:none;
+  white-space:nowrap;z-index:9999;
+  box-shadow:var(--shadow-lg);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--red-dk)}
+.toast.ok{background:var(--green-dk)}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:480px){
+  .field-row{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr}
+  .hero-amount{font-size:44px}
+  .type-btn{font-size:13px;padding:12px 8px}
+  .tab{padding:10px 14px;font-size:13px}
+  .setup-card,.auth-card{padding:28px 20px}
+  .chart-note{display:none}
+}
+@media(min-width:600px){
+  .hero-amount{font-size:64px}
+  .content{padding:24px 20px 0}
+  .hero-wrap{padding:24px 20px 0}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     SETUP SCREEN
+══════════════════════════════════════ -->
+<div id="setupScreen" class="setup">
+  <div class="setup-card">
+    <div class="setup-logo">🍊 Ivy's <em>Tap</em></div>
+    <div class="setup-sub">One-time setup — saved to this browser</div>
+
+    <div class="sf">
+      <label>Your name</label>
+      <input type="text" id="sMyName" placeholder="e.g. Alex" value="Me">
+    </div>
+    <div class="sf">
+      <label>OAuth 2.0 Client ID</label>
+      <input type="text" id="sClientId" placeholder="123456789-abc….apps.googleusercontent.com" autocomplete="off">
+      <div class="hint">From <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Console</a> → Credentials → OAuth 2.0 Client ID → Web application</div>
+    </div>
+    <div class="sf">
+      <label>Google Sheet ID</label>
+      <input type="text" id="sSheetId" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms">
+      <div class="hint">From the spreadsheet URL: <code>docs.google.com/spreadsheets/d/<b>THIS-PART</b>/edit</code></div>
+    </div>
+    <div class="sf">
+      <label>Sheet tab name</label>
+      <input type="text" id="sSheetTab" placeholder="Sheet1" value="Sheet1">
+      <div class="hint">Exact name of the tab at the bottom of your spreadsheet</div>
+    </div>
+
+    <div class="steps-box">
+      <div class="steps-title">Google Cloud setup (one-time)</div>
+      <div class="step"><b>1.</b> <a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a> → Enable <b>Google Sheets API</b></div>
+      <div class="step"><b>2.</b> Credentials → Create → <b>OAuth 2.0 Client ID</b> → Web application</div>
+      <div class="step"><b>3.</b> Authorised JavaScript origins: add your site URL</div>
+      <div class="step"><b>4.</b> OAuth consent screen → add both emails as <b>Test users</b></div>
+      <div class="step"><b>5.</b> Sheet columns must be: <code>Date | Credit | Debit | Current Amount | Comments</code></div>
+    </div>
+
+    <button class="setup-btn" onclick="saveSetup()">Save & continue →</button>
+    <div id="setupErr" class="setup-err"></div>
+    <div class="setup-note">Credentials stay in this browser only. Ivy uses the same file — she signs in with her own Google account.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     AUTH SCREEN
+══════════════════════════════════════ -->
+<div id="authScreen" class="auth" style="display:none">
+  <div class="auth-card">
+    <div class="auth-icon">🍊</div>
+    <div class="auth-logo">Ivy's <em>Tap</em></div>
+    <div class="auth-tag">Shared ledger · Sign in to continue</div>
+    <button class="gbtn" onclick="startSignIn()">
+      <svg width="20" height="20" viewBox="0 0 18 18">
+        <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/>
+        <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+        <path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.348 2.827.957 4.042l3.007-2.332z"/>
+        <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+      </svg>
+      Sign in with Google
+    </button>
+    <div id="authErr" class="auth-err"></div>
+    <div class="auth-link" onclick="goToSetup()">⚙ Change settings</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════ -->
+<div id="mainApp" style="display:none">
+
+  <!-- Sticky header -->
+  <div class="hdr">
+    <div class="hdr-top">
+      <div class="logo">🍊 Ivy's <em>Tap</em></div>
+      <div class="hdr-actions">
+        <div class="icon-btn" id="refreshBtn" onclick="loadAll()" title="Refresh">↻</div>
+        <div class="icon-btn" onclick="goToSetup()" title="Settings">⚙</div>
+        <div class="icon-btn" onclick="signOut()" title="Sign out" style="font-size:13px">↩</div>
+      </div>
+    </div>
+
+    <!-- Tabs inside header -->
+    <div class="tabs">
+      <div class="tab active" data-t="add"     onclick="switchTab('add')">Add entry</div>
+      <div class="tab"        data-t="history" onclick="switchTab('history')">Ledger</div>
+      <div class="tab"        data-t="stats"   onclick="switchTab('stats')">Summary</div>
+    </div>
+  </div>
+
+  <!-- Balance hero -->
+  <div class="hero-wrap">
+    <div class="hero-card loading-state" id="heroCard">
+      <div class="hero-eyebrow">Ivy's balance with Jeff</div>
+      <div class="hero-amount" id="heroAmt"><span class="spin">↻</span></div>
+      <div class="hero-msg" id="heroMsg">Loading…</div>
+      <div class="hero-stats">
+        <div class="hs-item">
+          <div class="hs-val" id="metaTotalCredit">–</div>
+          <div class="hs-lbl">Jeff paid Ivy</div>
+        </div>
+        <div class="hs-item">
+          <div class="hs-val" id="metaTotalDebit">–</div>
+          <div class="hs-lbl">Ivy spent</div>
+        </div>
+        <div class="hs-item">
+          <div class="hs-val" id="metaRows">–</div>
+          <div class="hs-lbl">Entries</div>
+        </div>
+      </div>
+    </div>
+    <!-- Sync status -->
+    <div class="sync-row">
+      <div class="sync-dot" id="syncDot"></div>
+      <span id="syncMsg">not loaded</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── ADD TAB ── -->
+    <div id="tab-add">
+      <div class="section-head">
+        <div class="section-title">New entry</div>
+        <div class="section-sub">Appends to spreadsheet</div>
+      </div>
+
+      <div class="form-card">
+        <!-- Credit / Debit toggle -->
+        <div class="type-toggle">
+          <button class="type-btn sel-credit" id="btnCredit" onclick="selType('credit')">
+            <div class="tb-icon">＋</div>
+            <div>Credit<br><span style="font-size:11px;font-weight:600;opacity:.7">Jeff → Ivy</span></div>
+          </button>
+          <button class="type-btn" id="btnDebit" onclick="selType('debit')">
+            <div class="tb-icon">－</div>
+            <div>Debit<br><span style="font-size:11px;font-weight:600;opacity:.7">Ivy spent</span></div>
+          </button>
+        </div>
+        <div class="type-hint h-credit" id="cdHint">Credit — Jeff paid Ivy / allowance received → balance goes up</div>
+
+        <!-- Amount + Date -->
+        <div class="field-row">
+          <div class="field">
+            <label>Amount ($)</label>
+            <input type="number" id="inAmt" placeholder="0.00" step="0.01" min="0" inputmode="decimal" oninput="updatePreview()">
+          </div>
+          <div class="field">
+            <label>Date</label>
+            <input type="date" id="inDate" onchange="updatePreview()">
+          </div>
+        </div>
+
+        <!-- Comment -->
+        <div class="field" style="margin-bottom:16px">
+          <label>Comment</label>
+          <textarea id="inComment" placeholder="e.g. Dad allowance Mar–Dec 2025 + 1k holiday"></textarea>
+        </div>
+
+        <!-- Preview -->
+        <div class="preview-bar" id="previewBar" style="display:none">
+          <div class="preview-label">Ivy's balance after this entry</div>
+          <div class="preview-val" id="previewBal">–</div>
+        </div>
+
+        <button class="add-btn" id="addBtn" onclick="submitEntry()">
+          <span id="addIcon">＋</span>
+          <span id="addText">Add to tab</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── HISTORY TAB ── -->
+    <div id="tab-history" style="display:none">
+      <div class="section-head">
+        <div class="section-title">Ledger</div>
+        <div class="refresh-btn" onclick="loadAll()">↻ Refresh</div>
+      </div>
+      <div class="filter-chips">
+        <div class="chip active" data-f="all"     onclick="setF(this,'all')">All</div>
+        <div class="chip"        data-f="credits" onclick="setF(this,'credits')">Credits</div>
+        <div class="chip"        data-f="debits"  onclick="setF(this,'debits')">Debits</div>
+      </div>
+      <div id="histList"><div class="loading-state"><span class="spin">↻</span> Loading…</div></div>
+    </div>
+
+    <!-- ── STATS TAB ── -->
+    <div id="tab-stats" style="display:none">
+      <div class="section-head">
+        <div class="section-title">Summary</div>
+        <div class="section-sub" id="statsRange"></div>
+      </div>
+      <div id="statsView"><div class="loading-state"><span class="spin">↻</span> Calculating…</div></div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /mainApp -->
+
+<div class="toast" id="toast"></div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+/* ═══════════════════════════════
+   STATE
+═══════════════════════════════ */
+let cfg={}, rows=[], txType='credit', filt='all', loaded=false;
+let accessToken=null, tokenExpiry=0, tokenClient=null;
+const SCOPE='https://www.googleapis.com/auth/spreadsheets';
+const COL={DATE:0,CREDIT:1,DEBIT:2,CURRENT:3,COMMENTS:4};
+
+/* ═══════════════════════════════
+   SETUP / PERSIST
+═══════════════════════════════ */
+function loadCfg(){try{cfg=JSON.parse(localStorage.getItem('ivystap4')||'{}')}catch(e){cfg={}}}
+function saveCfg(){localStorage.setItem('ivystap4',JSON.stringify(cfg))}
+
+function saveSetup(){
+  const cid=document.getElementById('sClientId').value.trim();
+  const sid=document.getElementById('sSheetId').value.trim();
+  const name=document.getElementById('sMyName').value.trim()||'Me';
+  const tab=document.getElementById('sSheetTab').value.trim()||'Sheet1';
+  const err=document.getElementById('setupErr');
+  if(!cid||!cid.includes('googleusercontent.com')){
+    err.style.display='block';err.textContent='Paste a valid OAuth Client ID (ends in .apps.googleusercontent.com)';return;
+  }
+  if(!sid){err.style.display='block';err.textContent='Paste your Google Sheet ID from the URL.';return}
+  err.style.display='none';
+  cfg={clientId:cid,sheetId:sid,myName:name,sheetTab:tab};
+  saveCfg();showAuth();
+}
+
+function goToSetup(){
+  hide('mainApp');hide('authScreen');show('setupScreen');
+  document.getElementById('sClientId').value=cfg.clientId||'';
+  document.getElementById('sSheetId').value=cfg.sheetId||'';
+  document.getElementById('sMyName').value=cfg.myName||'Me';
+  document.getElementById('sSheetTab').value=cfg.sheetTab||'Sheet1';
+}
+
+/* ═══════════════════════════════
+   AUTH
+═══════════════════════════════ */
+function showAuth(){hide('setupScreen');hide('mainApp');show('authScreen')}
+
+function initTokenClient(){
+  if(!window.google||!cfg.clientId) return;
+  tokenClient=google.accounts.oauth2.initTokenClient({
+    client_id:cfg.clientId,
+    scope:SCOPE,
+    callback:(resp)=>{
+      const ae=document.getElementById('authErr');
+      if(resp.error){
+        ae.style.display='block';
+        ae.textContent='Sign-in error: '+resp.error+(resp.error==='access_denied'
+          ?' — make sure your Google account is added as a Test User in the OAuth consent screen':'');
+        return;
+      }
+      accessToken=resp.access_token;
+      tokenExpiry=Date.now()+(resp.expires_in-60)*1000;
+      ae.style.display='none';
+      bootApp();
+    }
+  });
+}
+
+function startSignIn(){
+  const ae=document.getElementById('authErr');ae.style.display='none';
+  if(!window.google){ae.style.display='block';ae.textContent='Google script not loaded — check internet connection.';return}
+  if(!tokenClient) initTokenClient();
+  if(!tokenClient){ae.style.display='block';ae.textContent='Could not initialise — check Client ID in settings.';return}
+  tokenClient.requestAccessToken({prompt:'consent'});
+}
+
+function ensureToken(){
+  return new Promise((res,rej)=>{
+    if(accessToken&&Date.now()<tokenExpiry){res(accessToken);return}
+    if(!tokenClient) initTokenClient();
+    if(!tokenClient){rej(new Error('Token client not ready'));return}
+    const orig=tokenClient.callback;
+    tokenClient.callback=(resp)=>{
+      tokenClient.callback=orig;
+      if(resp.error){rej(new Error(resp.error));return}
+      accessToken=resp.access_token;
+      tokenExpiry=Date.now()+(resp.expires_in-60)*1000;
+      res(accessToken);
+    };
+    tokenClient.requestAccessToken({prompt:''});
+  });
+}
+
+function signOut(){
+  if(accessToken&&window.google) google.accounts.oauth2.revoke(accessToken,()=>{});
+  accessToken=null;tokenExpiry=0;rows=[];loaded=false;
+  showAuth();
+}
+
+/* ═══════════════════════════════
+   BOOT
+═══════════════════════════════ */
+function bootApp(){
+  hide('authScreen');hide('setupScreen');show('mainApp');
+  document.getElementById('inDate').value=new Date().toISOString().split('T')[0];
+  loadAll();
+}
+
+/* ═══════════════════════════════
+   SHEETS API
+   Columns: A=Date B=Credit C=Debit D=Current Amount E=Comments
+═══════════════════════════════ */
+function sheetRange(){
+  const tab=(cfg.sheetTab||'Sheet1').replace(/'/g,"''");
+  return encodeURIComponent("'"+tab+"'!A:E");
+}
+async function sheetsRead(){
+  const tok=await ensureToken();
+  const url=`https://sheets.googleapis.com/v4/spreadsheets/${cfg.sheetId}/values/${sheetRange()}`;
+  const r=await fetch(url,{headers:{Authorization:'Bearer '+tok}});
+  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||'Read error '+r.status)}
+  return r.json();
+}
+async function sheetsAppend(rowArr){
+  const tok=await ensureToken();
+  const url=`https://sheets.googleapis.com/v4/spreadsheets/${cfg.sheetId}/values/${sheetRange()}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
+  const r=await fetch(url,{method:'POST',headers:{Authorization:'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify({values:[rowArr]})});
+  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||'Write error '+r.status)}
+  return r.json();
+}
+function parseRows(data){
+  const raw=data.values||[];
+  if(raw.length<2) return [];
+  return raw.slice(1).map((r,i)=>{
+    const credit=parseFloat(r[COL.CREDIT])||0;
+    const debit =parseFloat(r[COL.DEBIT])||0;
+    const cur   =parseFloat(r[COL.CURRENT]);
+    return{rowNum:i+2,date:r[COL.DATE]||'',credit,debit,
+      current:isNaN(cur)?null:cur,comments:r[COL.COMMENTS]||'',
+      hasEntry:credit!==0||debit!==0};
+  });
+}
+
+/* ═══════════════════════════════
+   LOAD
+═══════════════════════════════ */
+async function getSheetTabs(){
+  const tok=await ensureToken();
+  const url=`https://sheets.googleapis.com/v4/spreadsheets/${cfg.sheetId}?fields=sheets.properties.title`;
+  const r=await fetch(url,{headers:{Authorization:'Bearer '+tok}});
+  if(!r.ok) return [];
+  const d=await r.json();
+  return (d.sheets||[]).map(s=>s.properties.title);
+}
+
+async function loadAll(){
+  setSyncState('loading','Syncing with Google Sheets…');
+  document.getElementById('refreshBtn').innerHTML='<span class="spin">↻</span>';
+  try{
+    let data;
+    try{
+      data=await sheetsRead();
+    }catch(e){
+      if(e.message.includes('Unable to parse range')||e.message.includes('parse')){
+        const tabs=await getSheetTabs();
+        if(tabs.length){
+          const tabList=tabs.map(t=>`"${t}"`).join(', ');
+          throw new Error(`Tab name mismatch. Your sheet tabs are: ${tabList} — update Sheet tab name in ⚙ settings.`);
+        }
+      }
+      throw e;
+    }
+    rows=parseRows(data);
+    loaded=true;
+    setSyncState('ok','Synced · '+rows.filter(r=>r.hasEntry).length+' entries');
+    updateHero();updatePreview();renderHistory();renderStats();
+  }catch(e){
+    setSyncState('err',e.message);
+    showToast('⚠ '+e.message,true);
+  }
+  document.getElementById('refreshBtn').textContent='↻';
+}
+
+function setSyncState(s,msg){
+  const d=document.getElementById('syncDot');
+  d.className='sync-dot '+(s==='ok'?'ok':s==='err'?'err':'spin-dot');
+  document.getElementById('syncMsg').textContent=msg;
+}
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+function currentBalance(){
+  for(let i=rows.length-1;i>=0;i--){if(rows[i].current!==null) return rows[i].current}
+  return null;
+}
+
+function fmtMoney(v,decimals=2){
+  return '$'+Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:decimals,maximumFractionDigits:decimals});
+}
+
+function updateHero(){
+  const bal=currentBalance();
+  const card=document.getElementById('heroCard');
+  const amtEl=document.getElementById('heroAmt');
+  const msgEl=document.getElementById('heroMsg');
+
+  if(bal===null){
+    card.className='hero-card loading-state';
+    amtEl.textContent='–';msgEl.textContent='No data loaded';return;
+  }
+
+  const sign=bal<0?'−':'';
+  amtEl.textContent=sign+fmtMoney(bal);
+
+  if(bal>0){
+    card.className='hero-card pos';
+    msgEl.textContent='Jeff owes Ivy '+fmtMoney(bal);
+  } else if(bal<0){
+    card.className='hero-card neg';
+    msgEl.textContent='Ivy owes Jeff '+fmtMoney(Math.abs(bal));
+  } else {
+    card.className='hero-card zero';
+    msgEl.textContent='All settled up ✓';
+  }
+
+  const tc=rows.reduce((s,r)=>s+r.credit,0);
+  const td=rows.reduce((s,r)=>s+r.debit,0);
+  const en=rows.filter(r=>r.hasEntry).length;
+  document.getElementById('metaTotalCredit').textContent=fmtMoney(tc,0);
+  document.getElementById('metaTotalDebit').textContent =fmtMoney(td,0);
+  document.getElementById('metaRows').textContent=en;
+}
+
+/* ═══════════════════════════════
+   TYPE TOGGLE
+═══════════════════════════════ */
+function selType(t){
+  txType=t;
+  document.getElementById('btnCredit').className='type-btn'+(t==='credit'?' sel-credit':'');
+  document.getElementById('btnDebit').className  ='type-btn'+(t==='debit' ?' sel-debit':'');
+  const h=document.getElementById('cdHint');
+  if(t==='credit'){h.className='type-hint h-credit';h.textContent='Credit — Jeff paid Ivy / allowance received → balance goes up'}
+  else            {h.className='type-hint h-debit'; h.textContent='Debit — Ivy spent / owes Jeff → balance goes down'}
+  updatePreview();
+}
+
+/* ═══════════════════════════════
+   PREVIEW
+═══════════════════════════════ */
+function updatePreview(){
+  const amt=parseFloat(document.getElementById('inAmt').value)||0;
+  const pb=document.getElementById('previewBar');
+  const pv=document.getElementById('previewBal');
+  if(!amt||!loaded){pb.style.display='none';return}
+  const bal=currentBalance();
+  if(bal===null){pb.style.display='none';return}
+  const newBal=txType==='credit'?bal+amt:bal-amt;
+  pb.style.display='flex';
+  const sign=newBal<0?'−':'';
+  pv.textContent=sign+fmtMoney(newBal);
+  pv.className='preview-val '+(newBal>=0?'pos':'neg');
+}
+
+/* ═══════════════════════════════
+   SUBMIT
+═══════════════════════════════ */
+async function submitEntry(){
+  const amt    =parseFloat(document.getElementById('inAmt').value);
+  const date   =document.getElementById('inDate').value;
+  const comment=document.getElementById('inComment').value.trim();
+  if(!amt||amt<=0){showToast('Enter a valid amount',true);return}
+  if(!date)       {showToast('Pick a date',true);return}
+
+  const d=new Date(date+'T12:00');
+  const dateStr=(d.getMonth()+1)+'/'+(d.getDate())+'/'+d.getFullYear();
+  const nextRow=rows.length+2;
+  const prevRow=nextRow-1;
+  const formula=`=D${prevRow}+B${nextRow}-C${nextRow}`;
+  const rowArr=txType==='credit'
+    ?[dateStr,amt,'',formula,comment]
+    :[dateStr,'',amt,formula,comment];
+
+  const btn=document.getElementById('addBtn');
+  btn.classList.add('loading');
+  document.getElementById('addIcon').innerHTML='<span class="spin">↻</span>';
+  document.getElementById('addText').textContent='Saving…';
+
+  try{
+    await sheetsAppend(rowArr);
+    const bal=currentBalance();
+    const newBal=bal!==null?(txType==='credit'?bal+amt:bal-amt):null;
+    rows.push({rowNum:nextRow,date:dateStr,
+      credit:txType==='credit'?amt:0,debit:txType==='debit'?amt:0,
+      current:newBal,comments:comment,hasEntry:true});
+    updateHero();updatePreview();renderHistory();renderStats();
+    document.getElementById('inAmt').value='';
+    document.getElementById('inComment').value='';
+    document.getElementById('inDate').value=new Date().toISOString().split('T')[0];
+    document.getElementById('previewBar').style.display='none';
+    setSyncState('ok','Saved · '+rows.filter(r=>r.hasEntry).length+' entries');
+    showToast('✓ Saved to spreadsheet!','ok');
+  }catch(e){
+    showToast('Save failed: '+e.message,true);
+  }
+  btn.classList.remove('loading');
+  document.getElementById('addIcon').textContent='＋';
+  document.getElementById('addText').textContent='Add to tab';
+}
+
+/* ═══════════════════════════════
+   TABS / FILTER
+═══════════════════════════════ */
+function switchTab(name){
+  ['add','history','stats'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display=t===name?'block':'none';
+  });
+  document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('active',el.dataset.t===name));
+  if(!loaded&&(name==='history'||name==='stats')) loadAll();
+}
+function setF(el,f){
+  filt=f;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');renderHistory();
+}
+
+/* ═══════════════════════════════
+   RENDER HISTORY
+═══════════════════════════════ */
+function renderHistory(){
+  let list=[...rows].reverse().filter(r=>r.hasEntry);
+  if(filt==='credits') list=list.filter(r=>r.credit>0);
+  if(filt==='debits')  list=list.filter(r=>r.debit>0);
+  const el=document.getElementById('histList');
+  if(!list.length){
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div><p>No entries yet</p></div>';return;
+  }
+  el.innerHTML=list.map(r=>{
+    const isC=r.credit>0;
+    const amt=isC?r.credit:r.debit;
+    const balStr=r.current!==null
+      ?(r.current<0?'−':'')+fmtMoney(r.current):'' ;
+    const balCls=r.current!==null?(r.current>=0?'pos':'neg'):'';
+    return `<div class="entry-card">
+      <div class="entry-badge ${isC?'credit':'debit'}">${isC?'＋':'－'}</div>
+      <div class="entry-body">
+        <div class="entry-comment">${r.comments||'–'}</div>
+        <div class="entry-date">${r.date}</div>
+      </div>
+      <div class="entry-right">
+        <div class="entry-amount ${isC?'credit':'debit'}">${isC?'+':'-'}${fmtMoney(amt)}</div>
+        ${balStr?`<div class="entry-balance ${balCls}">${balStr}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════
+   RENDER STATS
+═══════════════════════════════ */
+function renderStats(){
+  const el=document.getElementById('statsView');
+  const ent=rows.filter(r=>r.hasEntry);
+  if(!ent.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">📊</div><p>No data yet</p></div>';return}
+
+  const tc=ent.reduce((s,r)=>s+r.credit,0);
+  const td=ent.reduce((s,r)=>s+r.debit,0);
+  const bal=currentBalance();
+  const bC=Math.max(...ent.map(r=>r.credit).filter(v=>v>0),0);
+  const bD=Math.max(...ent.map(r=>r.debit).filter(v=>v>0),0);
+
+  const dates=ent.map(r=>r.date).filter(Boolean);
+  if(dates.length) document.getElementById('statsRange').textContent=dates[dates.length-1]+' → '+dates[0];
+
+  const top=[...ent].sort((a,b)=>(b.credit+b.debit)-(a.credit+a.debit)).slice(0,10);
+  const maxA=Math.max(...top.map(r=>Math.max(r.credit,r.debit)),1);
+  const chartHTML=top.map(r=>{
+    const isC=r.credit>0;const a=isC?r.credit:r.debit;
+    return `<div class="chart-row">
+      <div class="chart-date">${r.date}</div>
+      <div class="chart-bar-wrap"><div class="chart-track"><div class="chart-fill ${isC?'credit':'debit'}" style="width:${Math.round(a/maxA*100)}%"></div></div></div>
+      <div class="chart-amt ${isC?'credit':'debit'}">${isC?'+':'-'}${fmtMoney(a,0)}</div>
+      <div class="chart-note">${(r.comments||'').substring(0,22)}</div>
+    </div>`;
+  }).join('');
+
+  const sign=bal<0?'−':'';
+  el.innerHTML=`
+    <div class="big-stat">
+      <div class="big-stat-label">Current balance</div>
+      <div class="big-stat-val ${(bal||0)>=0?'pos':'neg'}">${sign}${fmtMoney(bal||0)}</div>
+      <div class="big-stat-sub">${(bal||0)>0?'Jeff owes Ivy':(bal||0)<0?'Ivy owes Jeff':'All settled up ✓'}</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Jeff paid Ivy</div>
+        <div class="stat-val pos">${fmtMoney(tc,0)}</div>
+        <div class="stat-sub">${ent.filter(r=>r.credit>0).length} credit entries</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Ivy spent / owes</div>
+        <div class="stat-val neg">${fmtMoney(td,0)}</div>
+        <div class="stat-sub">${ent.filter(r=>r.debit>0).length} debit entries</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Net flow</div>
+        <div class="stat-val ${tc>=td?'pos':'neg'}">${tc<td?'−':''}${fmtMoney(Math.abs(tc-td),0)}</div>
+        <div class="stat-sub">${tc>=td?'more in than out':'more out than in'}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total entries</div>
+        <div class="stat-val">${ent.length}</div>
+        <div class="stat-sub">${ent.filter(r=>r.credit>0).length} credits · ${ent.filter(r=>r.debit>0).length} debits</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Largest credit</div>
+        <div class="stat-val pos">${fmtMoney(bC,0)}</div>
+        <div class="stat-sub">single payment from Jeff</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Largest debit</div>
+        <div class="stat-val neg">${fmtMoney(bD,0)}</div>
+        <div class="stat-sub">single expense by Ivy</div>
+      </div>
+    </div>
+    ${chartHTML?`<div class="chart-card"><div class="chart-title">Largest entries</div>${chartHTML}</div>`:''}`;
+}
+
+/* ═══════════════════════════════
+   UTILS
+═══════════════════════════════ */
+function show(id){document.getElementById(id).style.display=''}
+function hide(id){document.getElementById(id).style.display='none'}
+function showToast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast '+(type==='ok'?'ok':type===true?'err':'')+' show';
+  clearTimeout(t._t);t._t=setTimeout(()=>{t.className='toast'},3400);
+}
+
+/* ═══════════════════════════════
+   BOOT
+═══════════════════════════════ */
+loadCfg();
+window.addEventListener('load',()=>{
+  if(!cfg.clientId||!cfg.sheetId){
+    show('setupScreen');hide('authScreen');hide('mainApp');
+  } else {
+    const gisReady=()=>{initTokenClient();showAuth()};
+    if(window.google) gisReady();
+    else {
+      const s=document.querySelector('script[src*="gsi/client"]');
+      if(s) s.addEventListener('load',gisReady);
+      else setTimeout(()=>{if(window.google) gisReady()},2000);
+    }
+  }
+});
+</script>
+</body>
+</html>
